@@ -1,0 +1,64 @@
+{
+  "name": "vpndetection-express",
+  "version": "1.0.0",
+  "description": "Official Express middleware for the VPNDetection API. Detect VPNs, proxies, Tor, hosting and CDN visitors on every request.",
+  "type": "module",
+  "packageManager": "pnpm@11.1.0",
+  "license": "MIT",
+  "homepage": "https://vpndetection.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vpndetection-io/sdk-nodejs-expressjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vpndetection-io/sdk-nodejs-expressjs/issues"
+  },
+  "keywords": [
+    "express",
+    "express-middleware",
+    "middleware",
+    "vpn",
+    "vpn-detection",
+    "proxy-detection",
+    "tor",
+    "ip-intelligence",
+    "fraud-prevention",
+    "bot-detection",
+    "residential-proxy",
+    "hosting"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "vpndetection": "^1.8.0"
+  },
+  "peerDependencies": {
+    "express": ">=4.18"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^26.2.0",
+    "express": "^5.2.1",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "test": "pnpm run build && node --test test/*.test.mjs",
+    "prepublishOnly": "pnpm run build"
+  }
+}

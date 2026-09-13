@@ -1,0 +1,19 @@
+{
+    "name": "vpndetection-express-integration",
+    "version": "0.0.0",
+    "private": true,
+    "description": "Exercises the PUBLISHED vpndetection-express package against the staging API.",
+    "type": "module",
+    "license": "MIT",
+    "engines": {
+        "node": ">=22"
+    },
+    "dependencies": {
+        "vpndetection-express": "^1.0.0",
+        "express": "^5.2.1"
+    },
+    "scripts": {
+        "test": "node --test test/*.test.mjs",
+        "integration": "node scripts/run.mjs"
+    }
+}

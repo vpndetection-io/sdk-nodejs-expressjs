@@ -1,0 +1,9 @@
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  # Not a third-party exclusion. `vpndetection` is our own SDK, published from
+  # its own repo's release workflow with npm provenance; it sits on public npm
+  # rather than an internal scope only because customers install it. The
+  # cooldown exists to blunt a compromised upstream publish, and waiting it out
+  # would ship this middleware a week behind its own client library after every
+  # SDK release.
+  - "vpndetection"
