@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       vpndetection:
-        specifier: ^1.8.0
-        version: 1.8.0
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@mslmio/eslint-config':
         specifier: ^1.0.0
@@ -774,8 +774,8 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vpndetection@1.8.0:
-    resolution: {integrity: sha512-Ox7K0B9smpcAGmhGFHzh9SUGPKbo2rkDV70F43qykIV8qhi3kBcE2L5ToHnfnyozL9yLVSfbfUmXVsJYsJhuiw==}
+  vpndetection@5.0.0:
+    resolution: {integrity: sha512-aKMPGT7+keKUZHOPhH0bX45wi5fKROJbValRPJT9qvBwZvZ7ZUhp7gvAa6sQou07DGiQSCVh1HCKGJw52GmMCw==}
     engines: {node: '>=22'}
 
   which@2.0.2:
@@ -1595,7 +1595,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vpndetection@1.8.0:
+  vpndetection@5.0.0:
     dependencies:
       lru-cache: 11.5.2
       p-limit: 6.2.0

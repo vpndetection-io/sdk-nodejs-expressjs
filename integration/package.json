@@ -9,7 +9,7 @@
         "node": ">=22"
     },
     "dependencies": {
-        "vpndetection-express": "^1.0.0",
+        "vpndetection-express": "^2.0.0",
         "express": "^5.2.1"
     },
     "scripts": {
