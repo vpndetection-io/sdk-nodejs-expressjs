@@ -12,9 +12,9 @@ importers:
         specifier: ^1.8.0
         version: 1.8.0
     devDependencies:
-      '@mslm/libjs-eslint-config':
-        specifier: 2.4.0
-        version: 2.4.0(eslint@9.39.5)(typescript@5.9.3)
+      '@mslmio/eslint-config':
+        specifier: ^1.0.0
+        version: 1.0.0(eslint@9.39.5)(typescript@5.9.3)
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.6
@@ -91,8 +91,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@mslm/libjs-eslint-config@2.4.0':
-    resolution: {integrity: sha512-GOx0aEL++0Qcm1HgpTYkSsAEzN1CT5Q6Iy4G8yDPyi7rCAo9HULz4VNPjiSPvx41bI5IMO6AS/++bt57b4VYQQ==, tarball: https://gitea.mslm.io/api/packages/mslm/npm/%40mslm%2Flibjs-eslint-config/-/2.4.0/libjs-eslint-config-2.4.0.tgz}
+  '@mslmio/eslint-config@1.0.0':
+    resolution: {integrity: sha512-itNWllNXcmCvUS5BhQ6i/c5hU6q8Ez+6kRYsVuUe6Yg+S5wXR7Rah91FjQX9kBWLIstGuvcBaswQen6hG4Xjpg==}
     peerDependencies:
       '@shadcn/lint': ^0.1.0
       eslint: '>=9.30.0'
@@ -862,7 +862,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@mslm/libjs-eslint-config@2.4.0(eslint@9.39.5)(typescript@5.9.3)':
+  '@mslmio/eslint-config@1.0.0(eslint@9.39.5)(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/eslint-plugin': 8.70.0(@typescript-eslint/parser@8.70.0(eslint@9.39.5)(typescript@5.9.3))(eslint@9.39.5)(typescript@5.9.3)
       '@typescript-eslint/parser': 8.70.0(eslint@9.39.5)(typescript@5.9.3)

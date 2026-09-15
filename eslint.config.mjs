@@ -1,4 +1,4 @@
-import { lib, typeChecked } from "@mslm/libjs-eslint-config";
+import { lib, typeChecked } from "@mslmio/eslint-config";
 
 export default [
   { ignores: ["dist/**", "node_modules/**", "spec/**", "integration/**", "src/generated/**", "**/*.gen.ts"] },
