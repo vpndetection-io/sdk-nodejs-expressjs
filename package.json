@@ -51,12 +51,12 @@
         "express": ">=4.18"
     },
     "devDependencies": {
-        "@mslmio/eslint-config": "^1.0.1",
+        "@mslmio/eslint-config": "^1.1.0",
         "@types/express": "^5.0.0",
         "@types/node": "^26.2.0",
-        "eslint": "^9.39.0",
+        "eslint": "^10.10.0",
         "express": "^5.2.1",
-        "typescript": "^5.9.3"
+        "typescript": "^6.0.3"
     },
     "scripts": {
         "build": "rm -rf dist && tsc",
