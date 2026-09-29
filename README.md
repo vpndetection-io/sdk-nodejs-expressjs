@@ -23,7 +23,7 @@ import { vpndetection } from 'vpndetection-express';
 
 const app = express();
 
-app.set('trust proxy', true);  // see "Where the client address comes from" below
+app.set('trust proxy', 'loopback');  // your proxy; see "Where the client address comes from" below
 app.use(vpndetection({ apiKey: process.env.VPNDETECTION_API_KEY }));
 
 app.get('/', (req, res) => {
@@ -72,11 +72,14 @@ This is the setting that decides whether any of the above works, and it is the o
 
 By default the middleware uses `req.ip`, which is Express's own accessor. **Express resolves `req.ip` to the socket peer unless you set `trust proxy`.** So if your app sits behind nginx, a load balancer, or a CDN and you have not set it, every visitor arrives wearing your proxy's address — which is a datacenter address, so a hosting rule would block all of them.
 
-If you are behind a proxy you control, setting Express's own option is the right fix and everything else here follows from it:
+If you are behind a proxy you control, setting Express's own option to that proxy's address is the right fix and everything else here follows from it:
 
 ```js
-app.set('trust proxy', true);
+app.set('trust proxy', 'loopback');    // a proxy on the same machine
+app.set('trust proxy', '10.0.0.0/8');  // or your load balancer's subnet
 ```
+
+Name your proxies rather than setting `true`. With `true`, `req.ip` is the left-most `X-Forwarded-For` entry, and the visitor writes that one: nginx, AWS's Application Load Balancer and Cloudflare all append to the header rather than replace it, so a visitor on a VPN who sends `X-Forwarded-For: 1.1.1.1` is looked up as `1.1.1.1`. A hop count such as `1` is no better, because it believes whoever connects to the app directly. Keep `true` only behind an edge you control that overwrites `X-Forwarded-For`.
 
 For an edge that writes the address into its own header, name the header:
 
@@ -131,7 +134,7 @@ app.use(vpndetection({ apiKey: KEY, skip: (req) => req.path.startsWith('/static'
 
 If you already hold a `VPNDetection` client, pass it as `client` and the middleware will share it rather than building a second cache.
 
-Beyond a few million distinct visitors a day, stop calling the API per request: [download the dataset](https://vpndetection.io/databases) and look addresses up locally instead.
+Beyond a few million distinct visitors a day, stop calling the API per request: [download the dataset](https://vpndetection.io/#databases) and look addresses up locally instead.
 
 ## Absent is not false
 
