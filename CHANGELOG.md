@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.9 - 2026-10-05
+
+### Features
+
+- Require vpndetection 5.4.0: the authorization code sign-in ([`2212c30`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/2212c30e74d027a0bb43c304c94915636c9fa359))
+
 ## 2.0.8 - 2026-10-04
 
 ### Fixes
