@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.10 - 2026-10-10
+
+### Fixes
+
+- Require vpndetection 5.5.1: no Retry-After is waited out after the last attempt ([`760e4f6`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/760e4f62dee60b31724f2d1c62db3ba9c0cf232b))
+
 ## 2.0.9 - 2026-10-05
 
 ### Features
