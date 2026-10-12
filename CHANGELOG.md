@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.11 - 2026-10-12
+
+### Fixes
+
+- Require vpndetection 5.5.2: an unreadable answer is retried, a blank key sends none ([`8a73904`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/8a73904b17c3262d7b77cb2a556249cdd4d0bb60))
+
 ## 2.0.10 - 2026-10-10
 
 ### Fixes
