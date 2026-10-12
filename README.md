@@ -70,7 +70,7 @@ app.use(vpndetection({
 
 This is the setting that decides whether any of the above works, and it is the one thing only you can get right.
 
-By default the middleware uses `req.ip`, which is Express's own accessor. **Express resolves `req.ip` to the socket peer unless you set `trust proxy`.** So if your app sits behind nginx, a load balancer, or a CDN and you have not set it, every visitor arrives wearing your proxy's address — which is a datacenter address, so a hosting rule would block all of them.
+By default the middleware uses `req.ip`, which is Express's own accessor. **Express resolves `req.ip` to the socket peer unless you set `trust proxy`.** So if your app sits behind nginx, a load balancer, or a CDN and you have not set it, every visitor arrives wearing your proxy's address, and that is the address that gets checked: VPN visitors pass unnoticed, and if it is a hosting address, a hosting rule blocks everyone. nginx on the same machine is `127.0.0.1` and a load balancer usually has a private address, which the middleware answers locally without a lookup, flagging nobody and logging a warning.
 
 If you are behind a proxy you control, setting Express's own option to that proxy's address is the right fix and everything else here follows from it:
 
