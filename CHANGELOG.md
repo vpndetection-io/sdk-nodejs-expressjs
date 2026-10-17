@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.13 - 2026-10-17
+
+### Features
+
+- Require vpndetection 5.6.0: OauthMetadata carries registration_endpoint ([`53c5fed`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/53c5fedb26445a9fe981567d30bd4a28f2b0402c))
+
 ## 2.0.12 - 2026-10-16
 
 ### Fixes
