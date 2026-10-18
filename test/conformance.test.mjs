@@ -27,6 +27,7 @@ after(() => {
 const MEMBER = {
     is_vpn: 'isVpn', is_hosting: 'isHosting', is_relay: 'isRelay', is_tor: 'isTor',
     is_cdn: 'isCdn', is_resproxy: 'isResproxy', is_dcproxy: 'isDcproxy', is_mobproxy: 'isMobproxy',
+    is_pubproxy: 'isPubproxy',
 };
 
 function toIdiom(condition) {
