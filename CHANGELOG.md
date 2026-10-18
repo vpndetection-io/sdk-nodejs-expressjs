@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.14 - 2026-10-18
+
+### Fixes
+
+- Require vpndetection 5.7.0: isPubproxy and the pubproxy detail ([`817e50d`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/817e50dc0759fc1be829f45dc9891056e1761afe))
+
 ## 2.0.13 - 2026-10-17
 
 ### Features
