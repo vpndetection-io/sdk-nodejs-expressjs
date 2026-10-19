@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.15 - 2026-10-19
+
+### Fixes
+
+- Require vpndetection 5.8.0: num_ports and num_proxies in the pubproxy detail ([`5d40602`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/5d40602c2eec97335e3953b846c56db8687954fc))
+
 ## 2.0.14 - 2026-10-18
 
 ### Fixes
