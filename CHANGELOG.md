@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.18 - 2026-10-20
+
+### Features
+
+- Require vpndetection 5.10.0: lookup results carry location and asn ([`c2eeed4`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/c2eeed4ff2a6064561c3c2d5080177348be0a56e))
+
 ## 2.0.17 - 2026-10-20
 
 ### Fixes
