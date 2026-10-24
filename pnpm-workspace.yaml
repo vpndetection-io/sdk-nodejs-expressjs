@@ -7,5 +7,5 @@ minimumReleaseAgeExclude:
   # would ship this middleware a week behind its own client library after every
   # SDK release.
   - "vpndetection"
-  # GHSA-27r3-jxmh-p828's fix, taken inside the window: drop after 2026-10-29 11:40 UTC (MCLOUD-395)
+  # GHSA-27r3-jxmh-p828's fix, taken inside the window: drop after 2026-10-29 11:40 UTC
   - "body-parser@2.4.0"
