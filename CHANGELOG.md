@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.20 - 2026-10-26
+
+### Fixes
+
+- Require vpndetection 5.10.2, which reads dates as RFC 3339 alone ([`fde6599`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/fde65990b7254991bd580ac8210175332ff3f1bb))
+
 ## 2.0.19 - 2026-10-23
 
 ### Fixes
