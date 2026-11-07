@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.23 - 2026-11-07
+
+### Features
+
+- Require vpndetection 5.11.0: downloads take the build a webhook names ([`235e4c9`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/235e4c9e92a344f2842c5decc8c682594a9042eb))
+
 ## 2.0.22 - 2026-11-07
 
 ### Fixes
