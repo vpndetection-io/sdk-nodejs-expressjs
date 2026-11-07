@@ -258,3 +258,58 @@ test('a condition that constrains nothing is refused at construction', () => {
     assert.throws(() => vpndetection({ blockCondition: { isVpn: false } }), /constrains nothing/);
     assert.throws(() => vpndetection({ blockCondition: {} }), /constrains nothing/);
 });
+
+// Built exactly as the README builds it: the README's `trust proxy`, and an API key
+// from the environment and nothing else. Every other test passes a client, so none
+// could see the middleware fail to start, or send no key, the README's way.
+test('builds as the README does, with the key set and unset', async () => {
+    const realFetch = globalThis.fetch;
+    const savedKey = process.env.VPNDETECTION_API_KEY;
+    const sent = [];
+    globalThis.fetch = async (input, init) => {
+        const request = new Request(input, init);
+        if (new URL(request.url).hostname !== 'api.vpndetection.io') {
+            return realFetch(input, init);
+        }
+        sent.push({ path: new URL(request.url).pathname, auth: request.headers.get('authorization') });
+        return new Response(JSON.stringify({ ip: PUBLIC_IP, is_vpn: true }), {
+            status: 200, headers: { 'content-type': 'application/json' },
+        });
+    };
+    try {
+        for (const key of ['readme-key', undefined]) {
+            if (key === undefined) {
+                delete process.env.VPNDETECTION_API_KEY;
+            } else {
+                process.env.VPNDETECTION_API_KEY = key;
+            }
+            sent.length = 0;
+
+            const app = express();
+            app.set('trust proxy', 'loopback');
+            app.use(vpndetection({ apiKey: process.env.VPNDETECTION_API_KEY }));
+            app.get('/', (req, res) => {
+                const { result } = req.vpndetection;
+                res.send(result.isVpn ? 'Hello, VPN user' : 'Hello');
+            });
+            const server = await new Promise((resolve) => {
+                const s = app.listen(0, '127.0.0.1', () => resolve(s));
+            });
+            servers.push(server);
+
+            const res = await realFetch(`http://127.0.0.1:${server.address().port}/`, {
+                headers: { 'x-forwarded-for': PUBLIC_IP },
+            });
+            assert.equal(res.status, 200, `key ${key}`);
+            assert.equal(await res.text(), 'Hello, VPN user', `key ${key}`);
+            assert.deepEqual(sent, [{ path: `/${PUBLIC_IP}`, auth: key === undefined ? null : `Bearer ${key}` }]);
+        }
+    } finally {
+        globalThis.fetch = realFetch;
+        if (savedKey === undefined) {
+            delete process.env.VPNDETECTION_API_KEY;
+        } else {
+            process.env.VPNDETECTION_API_KEY = savedKey;
+        }
+    }
+});
