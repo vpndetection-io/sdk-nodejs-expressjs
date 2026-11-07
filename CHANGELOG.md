@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.22 - 2026-11-07
+
+### Fixes
+
+- Require vpndetection 5.10.4, which refuses a bad client concurrency as bad_request ([`e75880b`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/e75880b397544e0f6006554ee5c3256b29d91bc0))
+
 ## 2.0.21 - 2026-11-04
 
 ### Fixes
