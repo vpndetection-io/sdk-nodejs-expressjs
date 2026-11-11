@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.25 - 2026-11-11
+
+### Fixes
+
+- Require vpndetection 5.12.1: plainer words on lookups without a key ([`02cf1af`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/02cf1af771e3e41104a08291f97295045c2c54ed))
+
 ## 2.0.24 - 2026-11-11
 
 ### Features
