@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.26 - 2026-11-11
+
+### Fixes
+
+- Require vpndetection 5.12.2: the Unlimited tier and its terms ([`fb53ffd`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/fb53ffd9b643f19340f4005d593494b57edffc02))
+
 ## 2.0.25 - 2026-11-11
 
 ### Fixes
