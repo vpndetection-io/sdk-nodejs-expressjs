@@ -138,7 +138,7 @@ Beyond a few million distinct visitors a day, stop calling the API per request: 
 
 ## Absent is not false
 
-The Unlimited tier, with a key or without one, leaves out `isHosting`, `isCdn` and the four proxy flags, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
+Unlimited, with a key or without one, leaves out `isHosting`, `isCdn` and the four proxy flags, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
 
 ```js
 req.vpndetection.result.isHosting ?? false   // when you only want the flag
