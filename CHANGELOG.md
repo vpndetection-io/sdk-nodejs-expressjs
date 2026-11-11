@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.27 - 2026-11-11
+
+### Features
+
+- Require vpndetection 5.13.0: trial_expired on a trial key's answers ([`29a7ecd`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/29a7ecdbe4699c900908af19c83eb64066f391de))
+
 ## 2.0.26 - 2026-11-11
 
 ### Fixes
