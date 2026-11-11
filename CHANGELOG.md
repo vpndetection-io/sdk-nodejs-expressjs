@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.28 - 2026-11-11
+
+### Fixes
+
+- Require vpndetection 5.13.1: the free plan's daily trial, never a trial key ([`b26e57b`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/b26e57b97b43dcb7d6d8142997e999d3943f24c4))
+
 ## 2.0.27 - 2026-11-11
 
 ### Features
