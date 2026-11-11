@@ -45,7 +45,7 @@
         "node": ">=22"
     },
     "dependencies": {
-        "vpndetection": "^5.13.1"
+        "vpndetection": "^5.13.2"
     },
     "peerDependencies": {
         "express": ">=4.18"
