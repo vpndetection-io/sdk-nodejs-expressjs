@@ -15,7 +15,7 @@ npm install vpndetection-express
 
 Requires Node.js 22 or newer and Express 4.18 or newer. TypeScript types are included.
 
-You need an API key. Create one in the [console](https://app.vpndetection.io); without one, lookups are limited to 60 a minute from each source address, and a server is a single source address, so a key is what makes this usable in production rather than optional.
+You need an API key. Create one in the [console](https://app.vpndetection.io); without one a lookup leaves out the hosting, CDN and proxy flags, so a key is what makes this usable in production rather than optional.
 
 ```js
 import express from 'express';
