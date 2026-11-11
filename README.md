@@ -15,7 +15,7 @@ npm install vpndetection-express
 
 Requires Node.js 22 or newer and Express 4.18 or newer. TypeScript types are included.
 
-You need an API key. Create one in the [console](https://app.vpndetection.io); without one a lookup is on the Unlimited tier, for [non-commercial use](https://vpndetection.io/terms#no-key) only, and leaves out the hosting, CDN and proxy flags, so a key is what makes this usable in production rather than optional.
+You need an API key on a paid plan. Create one in the [console](https://app.vpndetection.io); without one a lookup is on the Unlimited tier and leaves out the hosting, CDN and proxy flags, so a paid plan is what makes this usable in production rather than optional. A new account can try every field, 100 lookups a day.
 
 ```js
 import express from 'express';
@@ -138,7 +138,7 @@ Beyond a few million distinct visitors a day, stop calling the API per request: 
 
 ## Absent is not false
 
-Without a key a lookup leaves out `isHosting`, `isCdn` and the four proxy flags, and a free key leaves out `vpn` and the detail behind each flag. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
+The Unlimited tier, with a key or without one, leaves out `isHosting`, `isCdn` and the four proxy flags, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
 
 ```js
 req.vpndetection.result.isHosting ?? false   // when you only want the flag
