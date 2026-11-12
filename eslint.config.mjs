@@ -9,4 +9,9 @@ export default [
     files: ["src/index.ts"],
     rules: { "@typescript-eslint/no-namespace": "off" },
   },
+  {
+    // The README's apiKey: process.env pattern is what a test proves; the suite is not the library.
+    files: ["test/**"],
+    rules: { "mslmio/no-lib-process-env": "off" },
+  },
 ];
