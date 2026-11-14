@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.30 - 2026-11-14
+
+### Fixes
+
+- Require vpndetection 5.14.0: is_bogon on every answer, and provider_name beside each provider ([`ba80213`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/ba8021382f56fa664d560f72eae351909d685293))
+
 ## 2.0.29 - 2026-11-11
 
 ### Fixes
