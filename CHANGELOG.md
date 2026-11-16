@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.31 - 2026-11-16
+
+### Fixes
+
+- Require vpndetection 5.15.0: the plan's name ([`8277b74`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/8277b744c69d44f93d7be08fe926e2c9c3283ad4))
+
 ## 2.0.30 - 2026-11-14
 
 ### Fixes
