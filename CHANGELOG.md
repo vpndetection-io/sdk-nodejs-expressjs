@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.32 - 2026-11-18
+
+### Fixes
+
+- Require vpndetection 5.16.0: cap_reached past a paid plan's overage cap ([`1f30ebf`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/1f30ebfc5d9c09546895bb23263488063676c06a))
+
 ## 2.0.31 - 2026-11-16
 
 ### Fixes
