@@ -52,9 +52,10 @@ blockCondition: { isVpn: true, vpn: { provider: 'nordvpn' } }         // one pro
 blockCondition: { isResproxy: true, resproxy: { hits: { gte: 5 } } }  // a numeric threshold
 blockCondition: { vpn: { confidence: ['high', 'medium'] } }           // any of these
 blockCondition: [{ isTor: true }, { isResproxy: true }]               // a list is OR
+blockCondition: { isBot: true }                                       // a bot, such as a crawler, on every plan
 ```
 
-Values are matched by equality, strings without regard to case. An array means any-of. `{ gte, gt, lte, lt }` compares numbers, and every bound you give must hold, so two of them are a range. Members you set to `false` or `null` are ignored, so a condition states the signals you act on; one that constrains nothing would match every request, and is refused when the middleware is created rather than silently blocking all your traffic.
+Values are matched by equality, strings without regard to case. An array means any-of. `{ gte, gt, lte, lt }` compares numbers, and every bound you give must hold, so two of them are a range. A member the answer holds as a list (`web`, `pubproxy.protocols`, `bittorrent.clients`, `bot.agents`, `bot.categories`) is never matched, so block on its flag alone, such as `isBot`. Members you set to `false` or `null` are ignored, so a condition states the signals you act on; one that constrains nothing would match every request, and is refused when the middleware is created rather than silently blocking all your traffic.
 
 Replace the refusal with `onBlocked`:
 
@@ -138,7 +139,7 @@ Beyond a few million distinct visitors a day, stop calling the API per request: 
 
 ## Absent is not false
 
-Unlimited, with a key or without one, leaves out `isHosting`, `isCdn` and the four proxy flags, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
+Unlimited, with a key or without one, leaves out `isHosting`, `isCdn`, the four proxy flags, the carrier, satellite and service flags, `bot`, `company` and `abuse`, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
 
 ```js
 req.vpndetection.result.isHosting ?? false   // when you only want the flag
