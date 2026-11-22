@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.37 - 2026-11-22
+
+### Features
+
+- Require vpndetection 5.18.0: isBot and bot, and an AS without its country or RPKI status is refused ([`0951eea`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/0951eeae7f856d913fb7e620b9be0f27c2825475))
+
 ## 2.0.36 - 2026-11-22
 
 ### Fixes
