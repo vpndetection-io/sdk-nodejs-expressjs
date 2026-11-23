@@ -281,6 +281,14 @@ test('a condition that constrains nothing is refused at construction', () => {
     assert.throws(() => vpndetection({ blockCondition: {} }), /constrains nothing/);
 });
 
+// Through vpndetection 5.19.0 each was taken, and every request then passed as a failed lookup.
+test('a timeout or retry count no lookup can run is refused at construction', () => {
+    for (const options of [{ timeoutMs: 0 }, { timeoutMs: NaN }, { retries: -1 }, { retries: 1.5 }]) {
+        assert.throws(() => vpndetection({ blockCondition: { isVpn: true }, ...options }),
+            (err) => err.kind === 'bad_request', JSON.stringify(options));
+    }
+});
+
 // Built exactly as the README builds it: the README's `trust proxy`, and an API key
 // from the environment and nothing else. Every other test passes a client, so none
 // could see the middleware fail to start, or send no key, the README's way.
