@@ -152,12 +152,15 @@ test('skip leaves the request untouched', async () => {
     const { client: client, asked: asked } = stubClient();
     const call = await serve((app) => app.use(vpndetection({
         client: client, ipSelector: fixedIp, blockCondition: { isVpn: true },
-        skip: (req) => req.path === '/',
+        skip: (req) => req.headers['x-skip'] === '1',
     })));
-    const res = await call();
+    const res = await call({ 'x-skip': '1' });
     assert.equal(res.status, 200);
     assert.equal(res.body.attached, false);
     assert.deepEqual(asked, []);
+    // The request skip does not claim is looked up and refused, or the above passes with no middleware.
+    assert.equal((await call()).status, 403);
+    assert.deepEqual(asked, [PUBLIC_IP]);
 });
 
 test('a failing lookup lets the visitor through', async () => {
