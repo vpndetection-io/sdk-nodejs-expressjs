@@ -6,6 +6,7 @@
 // to arrive wearing a public address - through `trust proxy`, or a selector.
 
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
 import { after, test } from 'node:test';
 
 import express from 'express';
@@ -16,6 +17,8 @@ import {
 } from '../dist/index.js';
 
 const PUBLIC_IP = '45.83.91.1';
+// The client names itself and its version on every request, from 5.19.0.
+const BASE_VERSION = createRequire(import.meta.url)('vpndetection/package.json').version;
 const servers = [];
 
 after(() => {
@@ -287,7 +290,10 @@ test('builds as the README does, with the key set and unset', async () => {
         if (new URL(request.url).hostname !== 'api.vpndetection.io') {
             return realFetch(input, init);
         }
-        sent.push({ path: new URL(request.url).pathname, auth: request.headers.get('authorization') });
+        sent.push({
+            path: new URL(request.url).pathname, auth: request.headers.get('authorization'),
+            agent: request.headers.get('user-agent'),
+        });
         return new Response(JSON.stringify({ ip: PUBLIC_IP, is_vpn: true }), {
             status: 200, headers: { 'content-type': 'application/json' },
         });
@@ -318,7 +324,10 @@ test('builds as the README does, with the key set and unset', async () => {
             });
             assert.equal(res.status, 200, `key ${key}`);
             assert.equal(await res.text(), 'Hello, VPN user', `key ${key}`);
-            assert.deepEqual(sent, [{ path: `/${PUBLIC_IP}`, auth: key === undefined ? null : `Bearer ${key}` }]);
+            assert.deepEqual(sent, [{
+                path: `/${PUBLIC_IP}`, auth: key === undefined ? null : `Bearer ${key}`,
+                agent: `vpndetection-nodejs/${BASE_VERSION}`,
+            }]);
         }
     } finally {
         globalThis.fetch = realFetch;
