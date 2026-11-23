@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.0.40 - 2026-11-23
+
+### Fixes
+
+- Require vpndetection 5.19.2: a per-call timeout on a dataset download is refused rather than ignored ([`833c79b`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/833c79be5b524cab1cf537f46bd3ef0a2af56f35))
+
 ## 2.0.39 - 2026-11-23
 
 ### Fixes
