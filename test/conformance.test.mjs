@@ -40,7 +40,7 @@ function toIdiom(condition) {
 async function serve(options) {
     const app = express();
     app.use(vpndetection(options));
-    app.get('/', (_req, res) => res.json({ ok: true }));
+    app.get('/', (req, res) => res.json({ lookup: req.vpndetection ?? null }));
     const server = await new Promise((resolve) => {
         const s = app.listen(0, '127.0.0.1', () => resolve(s));
     });
@@ -68,6 +68,14 @@ for (const c of data.middleware.conditions) {
         const res = await fetch(url);
 
         assert.equal(res.status, c.expect.blocked ? 403 : 200, c.why);
+        if (!c.expect.blocked) {
+            // A 200 alone passes with the middleware removed: the answer it attached is the proof.
+            const { lookup } = await res.json();
+            assert.equal(lookup?.ip, ip, c.why);
+            assert.equal(lookup.result?.ip, ip, c.why);
+            assert.equal(lookup.result.isVpn, c.body?.is_vpn ?? false, c.why);
+            assert.equal(lookup.blocked, false, c.why);
+        }
         const missing = c.expect.missing.map((m) => MEMBER[m] ?? m);
         const reported = warnings.filter((w) => w.includes('does not include'));
         assert.equal(reported.length, missing.length === 0 ? 0 : 1, c.why);
