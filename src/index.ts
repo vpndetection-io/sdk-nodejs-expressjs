@@ -37,7 +37,7 @@ export interface Options extends MiddlewareOptions<Request> {
  * `failClosed`.
  */
 export function vpndetection(options: Options = {}): RequestHandler {
-    const core = createCore<Request>(options, defaultIpSelector);
+    const core = createCore<Request>(options, defaultIpSelector, selectors.userAgentSelector);
     const onBlocked = options.onBlocked ?? refuse;
     return (req: Request, res: Response, next: NextFunction) => {
         core.evaluate(req).then((lookup) => {

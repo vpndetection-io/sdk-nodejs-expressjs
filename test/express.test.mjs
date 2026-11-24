@@ -6,6 +6,7 @@
 // to arrive wearing a public address - through `trust proxy`, or a selector.
 
 import assert from 'node:assert/strict';
+import http from 'node:http';
 import { createRequire } from 'node:module';
 import { after, test } from 'node:test';
 
@@ -347,5 +348,73 @@ test('builds as the README does, with the key set and unset', async () => {
         } else {
             process.env.VPNDETECTION_API_KEY = savedKey;
         }
+    }
+});
+
+// allowBots as the README builds it, behind `trust proxy` with a public visitor:
+// the agent that reaches the API is the visitor's own, a verified crawler passes
+// the condition it meets, a spoofed or not_bot one is refused, and off sends none.
+test('allowBots sends the visitor\'s User-Agent and lets only a verified crawler through', async () => {
+    const realFetch = globalThis.fetch;
+    const googlebot = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+    const sent = [];
+    let verdict = 'verified';
+    globalThis.fetch = async (input, init) => {
+        const request = new Request(input, init);
+        const url = new URL(request.url);
+        if (url.hostname !== 'api.vpndetection.io') {
+            return realFetch(input, init);
+        }
+        const agent = url.searchParams.get('user_agent');
+        sent.push({ path: url.pathname, agent: agent });
+        return new Response(JSON.stringify({
+            ip: PUBLIC_IP, is_vpn: false, is_bot: true,
+            ...(agent === null ? {} : { user_agent: { agent: 'Googlebot', kind: 'bot', verdict: verdict } }),
+        }), { status: 200, headers: { 'content-type': 'application/json' } });
+    };
+    const start = async (options) => {
+        const app = express();
+        app.set('trust proxy', 'loopback');
+        app.use(vpndetection({ apiKey: 'readme-key', cache: false, onWarn: () => {}, ...options }));
+        app.get('/', (req, res) => res.json({ verdict: req.vpndetection.result.userAgent?.verdict ?? null }));
+        const server = await new Promise((resolve) => {
+            const s = app.listen(0, '127.0.0.1', () => resolve(s));
+        });
+        servers.push(server);
+        return server.address().port;
+    };
+    // Node's http sends no User-Agent of its own, where fetch sends `node`.
+    const get = (port, headers) => new Promise((resolve, reject) => {
+        http.get({ host: '127.0.0.1', port: port, path: '/', headers: { 'x-forwarded-for': PUBLIC_IP, ...headers } },
+            (res) => {
+                res.resume();
+                res.on('end', () => resolve(res.statusCode));
+            }).on('error', reject);
+    });
+    try {
+        const on = await start({ blockCondition: { isBot: true }, allowBots: true });
+        for (const [v, status] of [['verified', 200], ['spoofed', 403], ['not_bot', 403], ['unverifiable', 403]]) {
+            verdict = v;
+            sent.length = 0;
+            assert.equal(await get(on, { 'user-agent': googlebot }), status, v);
+            assert.deepEqual(sent, [{ path: `/${PUBLIC_IP}`, agent: googlebot }], `${v}: the visitor's own agent arrived`);
+        }
+        verdict = 'verified';
+        for (const headers of [{}, { 'user-agent': '' }]) {
+            sent.length = 0;
+            assert.equal(await get(on, headers), 403, JSON.stringify(headers));
+            assert.deepEqual(sent, [{ path: `/${PUBLIC_IP}`, agent: null }], `${JSON.stringify(headers)} sends none`);
+        }
+        const off = await start({ blockCondition: { isBot: true } });
+        sent.length = 0;
+        assert.equal(await get(off, { 'user-agent': googlebot }), 403);
+        assert.deepEqual(sent, [{ path: `/${PUBLIC_IP}`, agent: null }], 'off sends none');
+        const forged = await start({ blockCondition: { userAgent: { verdict: 'spoofed' } }, allowBots: true });
+        verdict = 'spoofed';
+        assert.equal(await get(forged, { 'user-agent': googlebot }), 403);
+        verdict = 'verified';
+        assert.equal(await get(forged, { 'user-agent': googlebot }), 200);
+    } finally {
+        globalThis.fetch = realFetch;
     }
 });
