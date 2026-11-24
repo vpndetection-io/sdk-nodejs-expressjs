@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.1.1 - 2026-11-24
+
+### Fixes
+
+- Require vpndetection 5.21.0: a condition on a list member, such as pubproxy.protocols or a web row's port, matches any element ([`2c2f65d`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/2c2f65dec4270ed0303ec28aba07f3e1fcc0d2ba))
+
 ## 2.1.0 - 2026-11-24
 
 ### Features
