@@ -55,7 +55,7 @@ blockCondition: [{ isTor: true }, { isResproxy: true }]               // a list 
 blockCondition: { isBot: true }                                       // a bot, such as a crawler, on every plan
 ```
 
-Values are matched by equality, strings without regard to case. An array means any-of. `{ gte, gt, lte, lt }` compares numbers, and every bound you give must hold, so two of them are a range. A member the answer holds as a list (`web`, `pubproxy.protocols`, `bittorrent.clients`, `bot.agents`, `bot.categories`) is never matched, so block on its flag alone, such as `isBot`. Members you set to `false` or `null` are ignored, so a condition states the signals you act on; one that constrains nothing would match every request, and is refused when the middleware is created rather than silently blocking all your traffic.
+Values are matched by equality, strings without regard to case. An array means any-of. `{ gte, gt, lte, lt }` compares numbers, and every bound you give must hold, so two of them are a range. A member the answer holds as a list (`web`, `pubproxy.protocols`, `bittorrent.clients`, `bot.agents`, `bot.categories`) matches when any element does: `{ pubproxy: { protocols: 'socks5' } }` matches a proxy that speaks SOCKS5 among others, and an object term such as `{ web: { port: 443 } }` must match one element in full. Members you set to `false` or `null` are ignored, so a condition states the signals you act on; one that constrains nothing would match every request, and is refused when the middleware is created rather than silently blocking all your traffic.
 
 Replace the refusal with `onBlocked`:
 
