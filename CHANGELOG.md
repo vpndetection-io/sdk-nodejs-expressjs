@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.1.2 - 2026-11-25
+
+### Fixes
+
+- Require vpndetection 5.21.1: its README and doc comments name the Data plan, not the retired plans ([`90357cc`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/90357ccd1dc1356d537b0faeb46a3d344134c697))
+
 ## 2.1.1 - 2026-11-24
 
 ### Fixes
