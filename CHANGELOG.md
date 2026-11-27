@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 2.0.3 are described by their release commits.
 
+## 2.1.5 - 2026-11-27
+
+### Features
+
+- Require vpndetection 5.23.0: a keyless answer without the AS's type reads ([`61adf0b`](https://github.com/vpndetection-io/sdk-nodejs-expressjs/commit/61adf0b89d56607343a750c6845e1a8cff5c63e8))
+
 ## 2.1.4 - 2026-11-26
 
 ### Fixes
