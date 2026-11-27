@@ -52,7 +52,7 @@ blockCondition: { isVpn: true, vpn: { provider: 'nordvpn' } }         // one pro
 blockCondition: { isResproxy: true, resproxy: { hits: { gte: 5 } } }  // a numeric threshold
 blockCondition: { vpn: { confidence: ['high', 'medium'] } }           // any of these
 blockCondition: [{ isTor: true }, { isResproxy: true }]               // a list is OR
-blockCondition: { isBot: true }                                       // a bot, such as a crawler, on every plan
+blockCondition: { isBot: true }                                       // a bot, such as a crawler, on a paid plan
 ```
 
 Values are matched by equality, strings without regard to case. An array means any-of. `{ gte, gt, lte, lt }` compares numbers, and every bound you give must hold, so two of them are a range. A member the answer holds as a list (`web`, `pubproxy.protocols`, `bittorrent.clients`, `bot.agents`, `bot.categories`) matches when any element does: `{ pubproxy: { protocols: 'socks5' } }` matches a proxy that speaks SOCKS5 among others, and an object term such as `{ web: { port: 443 } }` must match one element in full. Members you set to `false` or `null` are ignored, so a condition states the signals you act on; one that constrains nothing would match every request, and is refused when the middleware is created rather than silently blocking all your traffic.
@@ -79,7 +79,7 @@ app.use(vpndetection({
 }));
 ```
 
-A client claiming to be a crawler from an address its operator does not vouch for reads `spoofed`, so `blockCondition: { userAgent: { verdict: 'spoofed' } }` refuses a forged crawler. Any other agent, or none, is not sent, since its verdict could only be `not_bot`. One address is looked up with at most four crawler agents an hour: past those its lookup sends none, and a request passes as a crawler only where the answer's `bot.verified` is true. It is off by default, and then no agent is sent and the cache keeps one answer per address rather than one per address and agent. A verdict needs a paid plan or the trial: a served answer without one is reported once under `onMissingField`.
+A client claiming to be a crawler from an address its operator does not vouch for reads `spoofed`, so `blockCondition: { userAgent: { verdict: 'spoofed' } }` refuses a forged crawler. Any other agent, or none, is not sent, since its verdict could only be `not_bot`. One address is looked up with at most four crawler agents an hour: past those its lookup sends none, and a request passes as a crawler only where the answer's `bot.verified` is true. It is off by default, and then no agent is sent and the cache keeps one answer per address rather than one per address and agent. A verdict needs a paid plan or the trial: a served answer without one is reported once under `onMissingField`. The verdict is a paid member, so an app with no key gets no bot pass.
 
 ## Where the client address comes from
 
@@ -153,13 +153,13 @@ Beyond a few million distinct visitors a day, stop calling the API per request: 
 
 ## Absent is not false
 
-Unlimited, with a key or without one, leaves out `isHosting`, `isCdn`, the four proxy flags, the carrier, satellite and service flags, `bot`, `userAgent`, `company` and `abuse`, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
+Unlimited, with a key or without one, leaves out `isHosting`, `isCdn`, the four proxy flags, the carrier, satellite and service flags, `isBot`, `bot`, `userAgent`, `company` and `abuse`, and the AS's `type`, and of the detail behind each flag it answers only Tor's and relay's. A field your plan does not include is `undefined`, which means "not in your plan" rather than "checked, and no".
 
 ```js
 req.vpndetection.result.isHosting ?? false   // when you only want the flag
 ```
 
-A `blockCondition` naming a member your plan does not serve can never match, so the middleware warns once instead of failing silently. Set `onMissingField: 'throw'` to make it an error.
+A `blockCondition` naming a member your plan does not serve can never match, so the middleware warns once instead of failing silently. Set `onMissingField: 'throw'` to make it an error. A condition on `isBot` or `asn.type` with no key is one: both are a paid plan's, so it never matches and is reported as missing, `asn.type` by its path.
 
 ## Other Libraries
 
