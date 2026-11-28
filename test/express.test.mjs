@@ -418,3 +418,65 @@ test('allowBots sends the visitor\'s User-Agent and lets only a verified crawler
         globalThis.fetch = realFetch;
     }
 });
+
+// A bogon peer is no plan gap. Local development reaches the app from the loopback, or from a private
+// address through a proxy, with a crawler's User-Agent, and the answer made locally carries no verdict:
+// under onMissingField 'throw' that request was a 500, and under 'warn' it logged that the plan lacks
+// the member. Built as the README builds it, with the request's address a bogon: the loopback socket
+// itself, and a private and a loopback address from behind `trust proxy`.
+test('a bogon peer sending a crawler agent is no plan gap, whether onMissingField throws or warns', async () => {
+    const realFetch = globalThis.fetch;
+    const googlebot = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+    const sent = [];
+    globalThis.fetch = async (input, init) => {
+        const request = new Request(input, init);
+        if (new URL(request.url).hostname !== 'api.vpndetection.io') {
+            return realFetch(input, init);
+        }
+        sent.push(new URL(request.url).pathname);
+        return new Response('{}', { status: 500 });
+    };
+    const problems = [];
+    try {
+        for (const peer of [undefined, '10.0.0.1', '::1']) {
+            for (const action of ['throw', 'warn']) {
+                const label = `${peer ?? '127.0.0.1'}, ${action}`;
+                const warnings = [];
+                const app = express();
+                app.set('trust proxy', 'loopback');
+                app.use(vpndetection({
+                    apiKey: 'readme-key', cache: false, allowBots: true, blockCondition: { userAgent: { verdict: 'spoofed' } },
+                    onMissingField: action, onWarn: (m) => warnings.push(m),
+                }));
+                app.get('/', (req, res) => res.json({ bogon: req.vpndetection.result.isBogon, ip: req.vpndetection.ip }));
+                const server = await new Promise((resolve) => {
+                    const s = app.listen(0, '127.0.0.1', () => resolve(s));
+                });
+                servers.push(server);
+                // Node's http sends no User-Agent of its own, where fetch sends `node`.
+                const [status, body] = await new Promise((resolve, reject) => {
+                    http.get({
+                        host: '127.0.0.1', port: server.address().port, path: '/',
+                        headers: { 'user-agent': googlebot, ...(peer === undefined ? {} : { 'x-forwarded-for': peer }) },
+                    }, (res) => {
+                        let text = '';
+                        res.on('data', (chunk) => { text += chunk; });
+                        res.on('end', () => resolve([res.statusCode, text]));
+                    }).on('error', reject);
+                });
+                if (status !== 200) {
+                    problems.push(`${label}: answered ${status}: ${body.slice(0, 200)}`);
+                } else if (JSON.parse(body).bogon !== true) {
+                    problems.push(`${label}: not answered as a bogon: ${body}`);
+                }
+                for (const message of warnings.filter((m) => !/not a public address/.test(m))) {
+                    problems.push(`${label}: warned of a plan gap: ${message}`);
+                }
+            }
+        }
+    } finally {
+        globalThis.fetch = realFetch;
+    }
+    assert.deepEqual(sent, [], 'a bogon never reaches the API');
+    assert.deepEqual(problems, []);
+});
